@@ -1,0 +1,1218 @@
+# MobManager v3.0.3 by Michael McKnight (ShadowDog007)
+# http://dev.bukkit.org/bukkit-mods/mobmanager/
+# Spawner Global Config
+# #######################################################################
+# SpawnFinderThreads
+# #######################################################################
+# The number of threads to use for asynchronous portions of the spawner
+# 
+# Value of 1 should be fine for most servers.
+# 
+# The number of threads should have a large effect on servers with lots
+#     of players. Also if you have very large sets of Regions or Mobs.
+# 
+# #######################################################################
+# TicksPerSpawn
+# #######################################################################
+# How many ticks between sets of spawns.
+# 
+# Spawns run every tick, finding spawns for mobs around each player.
+# 
+# #######################################################################
+# SpawnGenerateAttempts
+# #######################################################################
+# This value effects how many attempts are made to generate a safe
+#     location for a mob spawn.
+# 
+# Once a spawn attempt has been started a location around the player
+#     is generated. If the location does not have free air,
+#     or is too close to another player, the location is marked unsafe
+#     and is not used. 'SpawnGenerateAttempts' attempts will be made
+#     to find a 'safe' location for each mob.
+# 
+# This does not have much effect when players are on the surface.
+# 
+# Higher values mean higher chances of mobs spawning in closed off areas
+#     (Such as caves)
+# 
+# Inside a vanilla cave system, a 'SpawnGenerateAttempts' of...
+#     - 5 gives about a 60% chance of allowing the mob to spawn.
+#     - 2 gives about a 40% chance of allowing the mob to spawn.
+# 
+# This is recommended to be as small as possible due to the amount
+#     of CPU time required to check if a location is 'safe'
+# 
+# #######################################################################
+# MobDistanceForLimitRemoval
+# #######################################################################
+# The distance between the mob and player before the mob is removed
+#     from the players mob limit.
+# 
+# #######################################################################
+# RemovePlayerMobsOnDisconnect
+# #######################################################################
+# If true all mobs spawned around the given player will be removed
+#     if the player disconnects from the server
+#     
+# #######################################################################
+# IgnoreCreativePlayers
+# #######################################################################
+# If true players in creative mode won't have mobs spawned around them
+#     
+# 
+# #######################################################################
+# SpawnMobs
+# #######################################################################
+# If true mobs will be allowed to spawn in this world.
+# 
+# Only present in world configs.
+# 
+# #######################################################################
+# Regions
+# #######################################################################
+# Used to define different regions each which have their own set of
+#     mobs which spawn within them.
+# 
+# Present in both the Global and World configs.
+# 
+# Currently there are four types of regions:
+# => GlobalConfig only
+# - GLOBAL Represents every location
+# => WorldConfig only
+# - POINT_CIRCLE Defines a region which covers a
+#     radius around a point
+# - POINT_SQUARE Defines a region which covers a
+#     X/Z distance from a point
+# 
+# 
+# Available region types are automatically generated into the config.
+# 
+# Regions:
+#   POINT_CIRCLE: {}
+#   POINT_SQUARE: {}
+# 
+# To create a custom region you can start off by simply setting the name
+#     of the region.
+# 
+# Regions:
+#   POINT_CIRCLE:
+#     TestRegion: {}
+#   POINT_SQUARE: {}
+# 
+# Reload MobManager and the required information will be generated
+#     into the config for you.
+# 
+# Regions:
+#   POINT_CIRCLE:
+#     TestRegion:
+#       Priority: 1
+#       SpawnAttempts: 1
+#       SpawnAttemptChance: 100.0
+#       MaxBlockRange: 56
+#       MinBlockRange: 24
+#       MinY: 0
+#       MaxY: 256
+#       X: 0
+#       Z: 0
+#       Radius: 0
+#       Mobs: []
+#   POINT_SQUARE: {}
+# 
+#   
+# After this is done, fill in the required information and reload MM
+# 
+# 
+# There are a set of region settings which are present in all
+#     region types.
+# 
+# Nodes: Priority, SpawnAttempts, SpawnAttemptChance, MinBlockRange and Mobs.
+# 
+# ################
+# Priority
+# ################
+# This represents the priority given to the region.
+# 
+# This is used when two regions overlap at a point.
+# 
+# When a region is fetched at a point where two overlap,
+#     the region with the higher value for priority has
+#     a higher chance of being picked.
+# 
+# ################
+# SpawnAttempts
+# ################
+# This is the number of spawn attempts to make for each player
+#     every time the spawner runs.
+# 
+# Spawn attempts can fail if mobs attempt to spawn in unsafe locations
+#      or if they attempt to spawn in locations with no regions
+#      or if the region selected contains no mobs which meet
+#      their requirements.
+# 
+# ################
+# SpawnAttemptChance
+# ################
+# This is a percent chance out of 100% in which a spawn attempt
+#     will be executed. If this chance fails the spawn attempt
+#     will not be executed.
+# 
+# You can make use of this to have more random numbers of spawn attempts
+#     per player.
+# 
+# ################
+# MaxBlockRange
+# ################
+# This is the maximum range in blocks which a mob is allowed
+#     to spawn afar from the player.
+# 
+# This will be forced lower if the limiters spawn range
+#     is lower
+# 
+# ################
+# MinBlockRange
+# ################
+# This is the minimum range in blocks which a mob is allowed
+#     to spawn nearby to a player.
+# 
+# Spawn locations are not generated between the player up
+#     till this distance.
+# 
+# This distance can cause spawn generation to fail if another
+#     player is within range of the generated spawn.
+#     
+# ################
+# MaxUndergroundBlockRange
+# ################
+# Replaces MaxBlockRange when the player is under the height
+#     set as UndergroundHeight.
+# 
+# ################
+# MinUndergroundBlockRange
+# ################
+# Replaces MinBlockRange when the player is under the height
+#     set as UndergroundHeight.
+# 
+# ################
+# UndergroundHeight
+# ################
+# When a player is under this height the spawner will use
+#    different min/max block ranges for spawning mobs.
+# 
+# ################
+# MaxPlayerMobs
+# ################
+# Defines the limit to how many mobs a player can have spawned around
+#     them before mobs are prevented from spawning.
+# 
+# The players limit is based on the number of mobs specifically
+#      spawned around them (Doesn't coun't for mobs spawned for
+#      other nearby players)
+# 
+# The limit is reset after teleporting between worlds or 100 blocks.
+# The limit is also reduced after the mob dies.
+# 
+# ################
+# MaxPlayerMobGroups
+# ################
+# Similar to MaxPlayerMobs but allows finer control on groups of mobs.
+# A mob can be put into one mob player group which allows a
+#     separate limit for players for mobs in that given group.
+# 
+# For regions without a given group, the region will be assumed
+#     to have no limits for that group.
+# 
+# e.g.
+# 
+# MaxPlayerMobGroups:
+#   GroupOneLimit: 5
+#   GroupTwoLimit: 10
+# 
+# ################
+# PlayerMobCooldown
+# ################
+# The time in seconds after a mob is removed from a players max mobs limit
+# 
+# ################
+# MaxRegionMobs
+# ################
+# Defines the maximum number of mobs which can be alive which
+#     were spawned by this region
+# 
+# ################
+# RegionMobCooldown
+# ################
+# Defines how long in seconds before a mob which is counted towards
+#     this regions 'MaxRegionMobs' is removed from the limit
+# 
+# ################
+# EnforceAllCooldownConditions
+# ################
+# If true, a mob will not be removed from the max alive
+#     limit unless it is both dead and the cooldown has passed  
+# 
+# ################
+# Mobs
+# ################
+# Every region has a list of mobs which spawn within the region along
+#     with a set of requirements which must be met for the mob to spawn.
+# 
+# Mobs:
+# - SpawnChance: 1
+#   MaxAlive: 0
+#   MobCooldown: 60
+#   EnforceAllCooldownConditions: false
+#   HeightOffset: 0
+#   BypassMobManagerLimit: false
+#   BypassPlayerAndRegionMobLimit: false
+#   DelayRequirementsCheck: false
+#   MobType: ZOMBIE
+#   AbilitySet: none
+#   Requirements:
+#     MinLight: 0
+#     MaxLight: 15
+#     MinY: 0
+#     MaxY: 256
+#     MinTime: 0
+#     MaxTime: 24000
+#     SlimeLikeSpawnSeed: 0
+#     RequireOpaqueBlock: true
+#     BlockList: []
+#     BlockWhitelist: false
+#     BiomeList: []
+#     EnvironmentList: []
+#     BiomeWhitelist: false
+#   Action:
+#     MessageSettings:
+#       FinderMode: CYLINDER
+#       Radius: 0
+#       Height: 0
+#     RandomMessage: false
+#     Messages: []
+#     CommandSettings:
+#       FinderMode: CYLINDER
+#       Radius: 0
+#       Height: 0
+#     Commands: []
+# 
+# 
+# Nodes:
+# - SpawnChance =>
+#     The chance of the mob to spawn relative to other
+#     mobs which met the requirements of the spawn
+# 
+# - MaxAlive =>
+#     The maximum number of this mob which can be alive
+#     at any one time.
+# 
+# - MobCooldown =>
+#     The time in seconds after which a mob is not counted
+#     towards the max alive limit
+# 
+# - EnforceAllCooldownConditions =>
+#     If true, a mob will not be removed from the max alive
+#     limit unless it is both dead and the cooldown has passed  
+# 
+# - HeightOffset =>
+#     The height in blocks which this mob will be spawned above
+#     normal. Could be helpful with flying mobs which spawn far above
+#     normal mobs.
+# 
+# - BypassMobManagerLimit =>
+#     If true this mob will bypass the check to see if the Limiter
+#     component will allow it to spawn.
+# 
+# - BypassPlayerAndRegionMobLimit =>
+#     If true this mob will not count towards the players or
+#     regions mob limit.
+#     This could be useful with boss mobs which you still want to spawn
+#     even if there are many other mobs around such as bosses.
+#     When enabling this, you should have MaxAlive set or a very low chance
+#     to ensure spawning of this mob does not get out of hand.
+# 
+# - DelayRequirementsCheck =>
+#     Mob spawn chances are based on the mobs which can spawn in the
+#     random location chosen, if this is true, it is assumed the
+#     mob can spawn, and this is checked afterwards when the mob
+#     has been chosen. If requirements fail at this point no
+#     mob is spawned. Can be useful if you want to make it
+#     clearer on the chances of spawning given mobs.
+# 
+# - MobType =>
+#     The type of mob which this 'Mob' will spawn
+# 
+# - AbilitySet =>
+#     The name of the ability set you wish to apply
+#     to the mob (Must have the AbilityComponent enabled)
+# 
+#     Note: MobType is not required if the AbilitySet
+#     has a default MobType assigned.
+# 
+# - Requirements =>
+#     Requirements which the spawn location has to satisfy
+#     else the mob will not get a chance to spawn.
+#     
+#     Requirement Nodes:
+#     - SlimeLikeSpawnSeed: The seed to use to determine
+#         which chunks this mob can spawn in. Set to 0
+#         to disable.
+#     - MinLight: The minimum amount of light at the spawn
+#     - MaxLight: The maximum amount of light at the spawn
+#     - MinY: The minimum Y location of the spawn
+#     - MaxY: The maximum Y location of the spawn
+#     - MinTime: The minimum world time the mob can spawn (0-24000)
+#     - MaxTime: The maximum world time the mob can spawn (0-24000)
+#     - SlimeLikeSpawnSeed: Only lets the mob spawn in certain
+#         chunks dependant on the seed given. 1/10 chunks will
+#         be spawnable. Works exactly the same as vanilla
+#         Slime spawning. Seed must be a number.
+#         If seed is 0 it is disabled.
+#     - RequireOpaqueBlock: Requires that the block the mob
+#         spawns on is solid. (i.e. not water/lava)
+#     - <Type>List: List of <Type> which the spawn
+#         (must|must not) have at least one of.
+#     - <Type>Whitelist: If true the <Type> at the spawn
+#         must be within the <Type>List
+#         Else it must not be within the <Type>List
+#     
+#     Types:
+#     - Block: Use block names from this link
+#         http://jd.bukkit.org/dev/apidocs/org/bukkit/Material.html
+#     - Biome: Use biome names from this link
+#         http://jd.bukkit.org/dev/apidocs/org/bukkit/block/Biome.html
+#     - Environment: Use environments names from this link
+#         http://jd.bukkit.org/dev/apidocs/org/bukkit/World.Environment.html
+# 
+# - Action =>
+#     Defines an action to perform upon the spawn of the mob.
+#     
+#     Action Nodes:
+#     - RandomMessage: If true, a single message is chosen from the list
+#         and sent to nearby players. Else all messages are sent to
+#         nearby players in order
+#     - Messages: A list of messages to send to nearby players.
+#         Can contain '{player}' which is replaced with the players name.
+#         Can also contain & colour codes.
+#     - Commands: A list of commands to run.
+#         Can contain '{player}'. If this is done the command is run
+#         once for every player within range. Else it is executed once.
+#     - <Action>Settings:
+#         -> FinderMode: CYLINDER or SPHERE. CYLINDER is slightly
+#             more efficient.
+#         -> Radius: Used for the radius of the sphere or
+#             circle (If CYLINDER is used)
+#         -> Height: Only used for CYLINDER. Determines the
+#             height of the cylinder search for players.
+# 
+# 
+# 
+# #######################################################################
+SharedRequirements:
+  NormalMonsterRequirements:
+    MinLight: 0
+    MaxLight: 7
+    RequireOpaqueBlock: true
+    BlockWhitelist: false
+    BiomeList: &id001
+    - MUSHROOM_ISLAND
+    - MUSHROOM_SHORE
+    BiomeWhitelist: false
+    EnvironmentList: &id002
+    - NORMAL
+    EnvironmentWhitelist: true
+  NormalAnimalRequirements:
+    MinLight: 8
+    MaxLight: 15
+    MinTime: 0
+    MaxTime: 12000
+    RequireOpaqueBlock: true
+    BlockList: &id003
+    - GRASS
+    BlockWhitelist: true
+    BiomeList: &id004
+    - MUSHROOM_ISLAND
+    - MUSHROOM_SHORE
+    BiomeWhitelist: false
+    EnvironmentList: &id005
+    - NORMAL
+    EnvironmentWhitelist: true
+  NetherMonsterRequirements:
+    MinLight: 0
+    MaxLight: 100
+    RequireOpaqueBlock: true
+    BlockWhitelist: false
+    BiomeWhitelist: false
+    EnvironmentList: &id006
+    - NETHER
+    EnvironmentWhitelist: true
+  TheEndMonsterRequirements:
+    MinLight: 0
+    MaxLight: 15
+    RequireOpaqueBlock: true
+    BlockWhitelist: false
+    BiomeWhitelist: false
+    EnvironmentList: &id007
+    - THE_END
+    EnvironmentWhitelist: true
+SpawnFinderThreads: 1
+TicksPerSpawn: 200
+SpawnGenerateAttempts: 1
+MobDistanceForLimitRemoval: 64
+RemovePlayerMobsOnDisconnect: true
+IgnoreCreativePlayers: false
+Regions:
+  GlobalRegion:
+    Priority: 0
+    SpawnAttempts: 1
+    SpawnAttemptChance: 50.0
+    MaxBlockRange: 48
+    MinBlockRange: 24
+    MaxUndergroundBlockRange: 32
+    MinUndergroundBlockRange: 16
+    UndergroundHeight: 55
+    MaxPlayerMobs: 1
+    MaxPlayerMobGroups:
+      NormalMonsters: 2
+      NormalAnimals: 1
+      AmbientMobs: 1
+      SpecialMonsters: 2
+      NetherMonsters: 12
+      TheEndMonsters: 1
+    PlayerMobCooldown: 99000
+    MaxRegionMobs: 250
+    RegionMaxMobGroups: []
+    RegionMobCooldown: 99000
+    EnforceAllCooldownConditions: false
+    Mobs:
+    - SpawnChance: 3500
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: ZOMBIE
+      AbilitySet: 
+	  - Chance: 99999999
+	    ZAMBLE
+	  - Chance: 1
+	    none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action:
+        MessageSettings:
+          FinderMode: CYLINDER
+          Radius: 0
+          Height: 0
+        RandomMessage: false
+        Messages: []
+        CommandSettings:
+          FinderMode: CYLINDER
+          Radius: 0
+          Height: 0
+        Commands: []
+    - SpawnChance: 2000
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: CREEPER
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 2000
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SKELETON
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 2000
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SPIDER
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 1600
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: WOLF
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 2000
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: ENDERMAN
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 200
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: SpecialMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: WITCH
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: *id001
+        BiomeWhitelist: false
+        EnvironmentList: *id002
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 1600
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SLIME
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 39
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 759031749324
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 1400
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SLIME
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList:
+        - SWAMPLAND
+        BiomeWhitelist: true
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 10
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: PIG
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 12000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: *id003
+        BlockWhitelist: true
+        BiomeList: *id004
+        BiomeWhitelist: false
+        EnvironmentList: *id005
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 10
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: CHICKEN
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 12000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: *id003
+        BlockWhitelist: true
+        BiomeList: *id004
+        BiomeWhitelist: false
+        EnvironmentList: *id005
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 10
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: COW
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 12000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: *id003
+        BlockWhitelist: true
+        BiomeList: *id004
+        BiomeWhitelist: false
+        EnvironmentList: *id005
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 10
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SHEEP
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 12000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: *id003
+        BlockWhitelist: true
+        BiomeList: *id004
+        BiomeWhitelist: false
+        EnvironmentList: *id005
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 5
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: OCELOT
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList:
+        - JUNGLE
+        - JUNGLE_HILLS
+        BiomeWhitelist: true
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 90
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: HORSE
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList:
+        - PLAINS
+        BiomeWhitelist: true
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 90
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalAnimals
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: MUSHROOM_COW
+      AbilitySet: none
+      Requirements:
+        MinLight: 8
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList:
+        - MUSHROOM_ISLAND
+        - MUSHROOM_SHORE
+        BiomeWhitelist: true
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 90
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: AmbientMobs
+      RegionLimitGroup: ''
+      HeightOffset: 5
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: BAT
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 7
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: false
+        BlockList:
+        - WATER
+        - STATIONARY_WATER
+        - LAVA
+        - STATIONARY_LAVA
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList:
+        - NORMAL
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 800
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NetherMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SKELETON_WITHER
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id006
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 3500
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NormalMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: PIG_ZOMBIE
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 100
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id006
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 200
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NetherMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: BLAZE
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 100
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id006
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 200
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: SpecialMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 20
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: GHAST
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: false
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList:
+        - NETHER
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 1200
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: NetherMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: MAGMA_CUBE
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id006
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 10
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: ''
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: SKELETON
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id006
+        EnvironmentWhitelist: true
+      Action: {}
+    - BypassRegionMobLimit: true
+      SpawnChance: 2000
+      MaxAlive: 1
+      MobCooldown: 7200
+      EnforceAllCooldownConditions: true
+      PlayerLimitGroup: ''
+      RegionLimitGroup: ''
+      HeightOffset: 32
+      BypassMobManagerLimit: true
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: ENDER_DRAGON
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id007
+        EnvironmentWhitelist: true
+      Action: {}
+    - SpawnChance: 2000
+      MaxAlive: 0
+      MobCooldown: 60
+      EnforceAllCooldownConditions: false
+      PlayerLimitGroup: TheEndMonsters
+      RegionLimitGroup: ''
+      HeightOffset: 0
+      BypassMobManagerLimit: false
+      BypassPlayerAndRegionMobLimit: false
+      DelayRequirementsCheck: false
+      MobType: ENDERMAN
+      AbilitySet: none
+      Requirements:
+        MinLight: 0
+        MaxLight: 15
+        MinY: 0
+        MaxY: 256
+        MinTime: 0
+        MaxTime: 24000
+        SlimeLikeSpawnSeed: 0
+        RequireOpaqueBlock: true
+        BlockList: []
+        BlockWhitelist: false
+        BiomeList: []
+        BiomeWhitelist: false
+        EnvironmentList: *id007
+        EnvironmentWhitelist: true
+      Action: {}
