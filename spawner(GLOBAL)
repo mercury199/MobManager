@@ -464,8 +464,8 @@ Regions:
     Priority: 0
     SpawnAttempts: 1
     SpawnAttemptChance: 50.0
-    MaxBlockRange: 48
-    MinBlockRange: 24
+    MaxBlockRange: 78
+    MinBlockRange: 16
     MaxUndergroundBlockRange: 32
     MinUndergroundBlockRange: 16
     UndergroundHeight: 55
@@ -526,7 +526,7 @@ Regions:
           Radius: 0
           Height: 0
         Commands: []
-    - SpawnChance: 2000
+    - SpawnChance: 1
       MaxAlive: 0
       MobCooldown: 60
       EnforceAllCooldownConditions: false
